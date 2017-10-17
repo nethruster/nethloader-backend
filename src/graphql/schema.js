@@ -1,13 +1,9 @@
+const path = require('path');
 const {makeExecutableSchema} = require('graphql-tools');
+const { fileLoader, mergeTypes, mergeResolvers } = require('merge-graphql-schemas');
 
-const resolvers = require('./resolvers');
-
-const typeDefs = [
-  require('./types/user'),
-  require('./types/image'),
-  require('./types/query'),
-  require('./types/mutation')
-];
+const typeDefs = mergeTypes(fileLoader(path.join(__dirname, 'schema')));
+const resolvers = mergeResolvers(fileLoader(path.join(__dirname, 'resolvers')));
 
 module.exports = makeExecutableSchema({
   typeDefs,
