@@ -5,6 +5,9 @@ const db = require('../../models');
 const tokenUtils = require('../../utils/token');
 
 module.exports = {
+  User: {
+    images: user => user.getImages()
+  },
   Query: {
     users: (parent, args, { currentUser }) => {
       if (currentUser) {

@@ -5,6 +5,9 @@ const saveImage = require('../../utils/save-image')
 const db = require('../../models');
 
 module.exports = {
+  Image: {
+    user: image => image.getUser()
+  },
   Query: {
     images: (parent, args, { currentUser }) => {
       if (currentUser && (args.UserId === currentUser.id || currentUser.isAdmin)) {
