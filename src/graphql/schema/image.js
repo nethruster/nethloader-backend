@@ -13,4 +13,7 @@ type Query {
   
   image(id: String!): Image
 }
+type Mutation {
+  uploadImage: Image
+}
 `

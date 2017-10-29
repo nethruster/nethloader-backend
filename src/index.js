@@ -1,5 +1,6 @@
 const express = require('express');
 const graphqlHTTP = require('express-graphql');
+const multer = require('multer');
 
 const config = require('./utils/config');
 
@@ -15,12 +16,16 @@ if(config.cors.enabled) {
 }
 
 app.use('/graphql', authenticationMiddleware);
+app.use('/graphql', multer({
+  storage: multer.memoryStorage()
+}).array('files'))
 
 app.use('/graphql', graphqlHTTP(req => ({
   schema: schema,
   graphiql: config.env !== "production",
   context: {
-    currentUser: req.user
+    currentUser: req.user,
+    files: req.files
   }
 })));
 
