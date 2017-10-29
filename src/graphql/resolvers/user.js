@@ -13,7 +13,7 @@ module.exports = {
         }
 
         if (currentUser.isAdmin) {
-          return db.User.findOne({ where: args })
+          return db.User.findAll({ where: args })
         } else {
           throw new GraphQLError("Unauthorized")
         }
@@ -22,8 +22,14 @@ module.exports = {
       }
     },
     user: (parent, args, { currentUser }) => {
-      if (currentUser && currentUser.isAdmin) {
-        return db.User.findAll({ where: args })
+      if(currentUser) {
+        if (args.id === currentUser.id || args.email === currentUser.email) {
+          return currentUser;
+        } else if (currentUser.isAdmin) {
+          return db.User.findOne({ where: args })
+        } else {
+          throw new GraphQLError("Unauthorized")
+        }
       } else {
         throw new GraphQLError("Unauthorized")
       }
