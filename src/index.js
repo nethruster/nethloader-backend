@@ -16,6 +16,10 @@ if(config.server.cors.enabled) {
   app.use(cors(config.server.cors.options));
 }
 
+if(config.server.serveImages) {
+  app.use('/media', express.static(config.storage.imagesPath));
+}
+
 app.use('/graphql', authenticationMiddleware);
 app.use('/graphql', multer({
   storage: multer.memoryStorage()
