@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 const {getConfigSection} = require('./config');
 
-var securiyConfig = getConfigSection("securiy");
+var securiyConfig = getConfigSection("security");
 
 function verify(token) {
   return new Promise((resolve, reject) =>{
