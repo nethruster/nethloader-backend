@@ -1,0 +1,27 @@
+{
+  "server": {
+    "address": "",
+    "port": 4000,
+    "serveImages": true,
+    "cors": {
+      "enabled": true,
+      "options": {
+        "origin": true
+      }
+    }
+  },
+  "security": {
+    "jwtSecret": "AAA"
+  },
+  "storage": {
+    "imagesPath": "$appdir/images"
+  },
+  "database": {
+    "username": "root",
+    "password": "123456",
+    "database": "nethloader",
+    "host": "localhost",
+    "port": 3306,
+    "dialect": "mysql"
+  }
+}

@@ -3,13 +3,14 @@
 const fs        = require('fs');
 const path      = require('path');
 const Sequelize = require('sequelize');
-const config    = require('../utils/config');
 
-const isDevelopment = config.env === "development"
+const {getConfigSection}  = require('../utils/config');
+
+const isDevelopment = getConfigSection("env") === "development"
 const basename  = path.basename(module.filename);
 var db          = {};
 
-var sequelize = new Sequelize(config.database);
+var sequelize = new Sequelize(getConfigSection("database"));
 
 fs
   .readdirSync(__dirname)

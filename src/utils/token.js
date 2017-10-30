@@ -1,10 +1,12 @@
 const jwt = require('jsonwebtoken');
 
-const config = require('./config');
+const {getConfigSection} = require('./config');
+
+var securiyConfig = getConfigSection("securiy");
 
 function verify(token) {
   return new Promise((resolve, reject) =>{
-    jwt.verify(token, config["jwt-key"], (err, decoded) => {
+    jwt.verify(token, securiyConfig.jwtSecret, (err, decoded) => {
       if(err) {
         return reject(err)
       }
@@ -21,7 +23,7 @@ function sign(data, expiresIn) {
     }
     jwt.sign(
       data,
-      config["jwt-key"],
+      securiyConfig.jwtSecret,
       options,
       (err, token) => {
         if(err) {
