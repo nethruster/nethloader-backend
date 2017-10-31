@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node dist/index.js",
     "build": "babel src -d dist",
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "test": "mocha --require babel-core/register --require test/mocha.env.js ./test/**/*.spec.js "
   },
   "repository": {
     "type": "git",
@@ -36,7 +37,11 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.0",
+    "chai": "^4.1.2",
     "faker": "^4.1.0",
-    "nodemon": "^1.12.1"
+    "mocha": "^4.0.1",
+    "nodemon": "^1.12.1",
+    "sinon": "^4.0.2",
+    "sinon-chai": "^2.14.0"
   }
 }
