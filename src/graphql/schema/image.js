@@ -15,5 +15,6 @@ type Query {
 }
 type Mutation {
   uploadImage: Image
+  deleteImage(id: String!): Boolean
 }
 `

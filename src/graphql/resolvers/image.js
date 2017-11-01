@@ -1,7 +1,8 @@
 const { GraphQLError } = require('graphql');
 const mime = require('mime-types');
 
-const saveImage = require('../../utils/save-image')
+const saveImage = require('../../utils/save-image');
+const removeImage = require('../../utils/remove-image');
 const db = require('../../models');
 
 module.exports = {
@@ -32,6 +33,15 @@ module.exports = {
       await saveImage(img.id, ext, file.buffer);
 
       return img;
+    },
+    deleteImage: async (parent, args, {currentUser}) => {
+      if(!currentUser) 
+      {
+        throw new GraphQLError("Unauthorized"); 
+      }
+      let image = await db.Image.findOne({where: {id: args.id}})
+      await removeImage(image);
+      return true
     }
   }
 }
