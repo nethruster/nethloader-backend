@@ -54,8 +54,11 @@ module.exports = {
     },
     register: async (parent, args) => {
       let user = await db.User.create({
+        id: db.User.generateId(),
         name: args.name,
         email: args.email,
+        apiKey: db.User.generateApiKey(),
+        sessionSignature: db.User.generateSessionSignature(),
         password: await bcrypt.hash(args.password, 12),
       })
 

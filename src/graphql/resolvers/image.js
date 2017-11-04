@@ -28,6 +28,7 @@ module.exports = {
       let file = files[0];
       let ext = mime.extension(file.mimetype);
       let img = await currentUser.createImage({
+        id: db.Image.generateId(),
         extension: ext
       });
       await saveImage(img.id, ext, file.buffer);

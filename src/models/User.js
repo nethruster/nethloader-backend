@@ -29,20 +29,23 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     }
 
-  },
-  {
-    hooks: {
-      beforeValidate(user, options) {
-        user.id = nanoid(10);
-        user.apiKey = nanoid(24);
-        user.sessionSignature = nanoid(24);
-      }
-    }
   });
 
   User.associate = (models) => {
     User.hasMany(models.Image);
   };
+
+  User.generateId = function() {
+    return nanoid(10);
+  }
+
+  User.generateApiKey = function() {
+    return nanoid(24);
+  }
+
+  User.generateSessionSignature = function() {
+    return nanoid(24);
+  }
 
   return User;
 };

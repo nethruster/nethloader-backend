@@ -10,13 +10,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(5),
       allowNull: false
     }
-  },
-  {
-    hooks: {
-      beforeValidate(image, options) {
-        image.id = nanoid(10)
-      }
-    }
   });
 
   Images.associate = (models) => {
@@ -24,6 +17,10 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'CASCADE'
     });
   };
+  
+  Images.generateId = function() {
+    return nanoid(10);
+  }    
 
   return Images;
 };
