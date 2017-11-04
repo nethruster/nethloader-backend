@@ -31,8 +31,8 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-if (isDevelopment) {
-  (require('../utils/add-fake-entries'))(db).catch(err => {throw err;});
-}
+// if (isDevelopment) {
+//   (require('../utils/add-fake-entries'))(db).catch(err => {throw err;});
+// }
 
 module.exports = db;

@@ -41,6 +41,7 @@
     "faker": "^4.1.0",
     "mocha": "^4.0.1",
     "nodemon": "^1.12.1",
+    "sequelize-mocking": "^1.2.0",
     "sinon": "^4.0.2",
     "sinon-chai": "^2.14.0"
   }

@@ -1,0 +1,28 @@
+[
+  {
+    "model": "User",
+    "data": 
+      {
+        "id": "6hh2TbgH_v",
+        "password": "$2a$12$fG7KsnV0zPq7tL81cYSPNeZ9yy.WH4CRa8fku3GvVIZRxlhe4EXAa",
+        "email": "Yesenia_Carter@yahoo.com",
+        "name": "Hilario",
+        "apiKey": "6x6h8MeCO5i4AKMefd3TEREM",
+        "sessionSignature": "okh9OctFT6uSo~3hcThMgMyd",
+        "isAdmin": "1",
+        "createdAt": "2017-10-31 15:28:38",
+        "updatedAt": "2017-10-31 15:28:38"
+      }
+  },
+  {
+    "model": "Image",
+    "data": 
+      {
+        "id": "9tgK3aLl9h",
+        "extension": "jpg",
+        "createdAt": "2017-10-31 15:28:39",
+        "updatedAt": "2017-10-31 15:28:39",
+        "user": "BGd7o7ogc7"
+      }
+  }
+]
