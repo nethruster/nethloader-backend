@@ -1,3 +1,5 @@
+const {Edge, Page} = require('./type-helpers/pagination');
+
 module.exports = `
 type Image {
   id: String
@@ -5,11 +7,14 @@ type Image {
   user: User
   createdAt: String
 }
+${Page('Image', 'images')}
 type Query {
   images(
-    id: String,
+    userId: String
     extension: String
-  ): [Image]
+    limit: Int
+    offset: Int
+  ): ImagePage
   
   image(id: String!): Image
 }

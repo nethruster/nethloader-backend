@@ -1411,6 +1411,17 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.4:
   version "4.1.11"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
 
+graphql-page@^1.0.1:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/graphql-page/-/graphql-page-1.0.2.tgz#3030d67044c5955386aedfde171844c89728a383"
+
+graphql-sequelize-paginate@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/graphql-sequelize-paginate/-/graphql-sequelize-paginate-1.0.0.tgz#0dade69818b40d44f9f98d71134fc75ed1dd25f6"
+  dependencies:
+    graphql-page "^1.0.1"
+    validate-graphql-page-args "^1.0.1"
+
 graphql-tools@^1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/graphql-tools/-/graphql-tools-1.2.3.tgz#079bf4d157e46c0a0bae9fec117e0eea6e03ba2c"
@@ -3029,6 +3040,10 @@ v8flags@^2.1.1:
   resolved "https://registry.yarnpkg.com/v8flags/-/v8flags-2.1.1.tgz#aab1a1fa30d45f88dd321148875ac02c0b55e5b4"
   dependencies:
     user-home "^1.1.1"
+
+validate-graphql-page-args@^1.0.1:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/validate-graphql-page-args/-/validate-graphql-page-args-1.0.2.tgz#c183a5f181a499a550f87c4b4748f17f278d71f7"
 
 validator@^8.0.0:
   version "8.2.0"

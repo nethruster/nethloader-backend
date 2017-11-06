@@ -39,8 +39,7 @@ function generateUserToken(user, expiresIn) {
   return sign(
     {
       id: user.id,
-      sessionSignature: user.sessionSignature,
-      isAdmin: user.isAdmin
+      sessionSignature: user.sessionSignature
     },
     expiresIn
   )
