@@ -36,6 +36,12 @@ module.exports = {
         if (args.extension) {
           query.where.userId = args.extension
         }
+        if (args.beforeDate) {
+          query.where[Op.lt] = args.beforeDate;
+        }
+        if (args.afterDate) {
+          query.where[Op.gt] = args.afterDate;
+        }
         let result = await db.Image.findAndCountAll(query);
 
         return {

@@ -16,6 +16,8 @@ type Query {
     offset: Int
     orderBy: String
     orderDirection: String
+    beforeDate: String
+    afterDate: String
   ): ImagePage
   
   image(id: String!): Image
