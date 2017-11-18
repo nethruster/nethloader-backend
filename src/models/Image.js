@@ -1,4 +1,4 @@
-const nanoid = require('nanoid');
+const nanoid = require('nanoid')
 
 module.exports = (sequelize, DataTypes) => {
   const Images = sequelize.define('Image', {
@@ -10,17 +10,17 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(5),
       allowNull: false
     }
-  });
+  })
 
   Images.associate = (models) => {
     Images.belongsTo(models.User, {
       onDelete: 'CASCADE'
-    });
-  };
-  
-  Images.generateId = function() {
-    return nanoid(10);
-  }    
+    })
+  }
 
-  return Images;
-};
+  Images.generateId = function () {
+    return nanoid(10)
+  }
+
+  return Images
+}

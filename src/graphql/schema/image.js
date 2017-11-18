@@ -1,4 +1,4 @@
-const {Edge, Page} = require('./type-helpers/pagination');
+const {Page} = require('./type-helpers/pagination')
 
 module.exports = `
 type Image {

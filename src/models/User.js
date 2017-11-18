@@ -1,4 +1,4 @@
-const nanoid = require('nanoid');
+const nanoid = require('nanoid')
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
@@ -29,23 +29,23 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     }
 
-  });
+  })
 
   User.associate = (models) => {
-    User.hasMany(models.Image);
-  };
-
-  User.generateId = function() {
-    return nanoid(10);
+    User.hasMany(models.Image)
   }
 
-  User.generateApiKey = function() {
-    return nanoid(24);
+  User.generateId = function () {
+    return nanoid(10)
   }
 
-  User.generateSessionSignature = function() {
-    return nanoid(24);
+  User.generateApiKey = function () {
+    return nanoid(24)
   }
 
-  return User;
-};
+  User.generateSessionSignature = function () {
+    return nanoid(24)
+  }
+
+  return User
+}

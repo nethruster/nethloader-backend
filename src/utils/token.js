@@ -1,24 +1,24 @@
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken')
 
-const {getConfigSection} = require('./config');
+const {getConfigSection} = require('./config')
 
-var securiyConfig = getConfigSection("security");
+var securiyConfig = getConfigSection('security')
 
-function verify(token) {
-  return new Promise((resolve, reject) =>{
+function verify (token) {
+  return new Promise((resolve, reject) => {
     jwt.verify(token, securiyConfig.jwtSecret, (err, decoded) => {
-      if(err) {
+      if (err) {
         return reject(err)
       }
       return resolve(decoded)
-    });
-  });
+    })
+  })
 }
 
-function sign(data, expiresIn) {
+function sign (data, expiresIn) {
   return new Promise((resolve, reject) => {
-    const options = {};
-    if(expiresIn) {
+    const options = {}
+    if (expiresIn) {
       options.expiresIn = expiresIn
     }
     jwt.sign(
@@ -26,16 +26,16 @@ function sign(data, expiresIn) {
       securiyConfig.jwtSecret,
       options,
       (err, token) => {
-        if(err) {
-          return reject(err);
+        if (err) {
+          return reject(err)
         }
-        return resolve(token);
+        return resolve(token)
       }
     )
-  });
+  })
 }
 
-function generateUserToken(user, expiresIn) {
+function generateUserToken (user, expiresIn) {
   return sign(
     {
       id: user.id,

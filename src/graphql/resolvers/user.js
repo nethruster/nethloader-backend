@@ -1,8 +1,8 @@
-const { GraphQLError } = require('graphql');
+const { GraphQLError } = require('graphql')
 
-const bcrypt = require('bcrypt');
-const db = require('../../models');
-const tokenUtils = require('../../utils/token');
+const bcrypt = require('bcrypt')
+const db = require('../../models')
+const tokenUtils = require('../../utils/token')
 
 module.exports = {
   User: {
@@ -12,29 +12,29 @@ module.exports = {
     users: (parent, args, { currentUser }) => {
       if (currentUser) {
         if (args.id === currentUser.id || args.email === currentUser.email) {
-          return currentUser;
+          return currentUser
         }
 
         if (currentUser.isAdmin) {
           return db.User.findAll({ where: args })
         } else {
-          throw new GraphQLError("Unauthorized")
+          throw new GraphQLError('Unauthorized')
         }
       } else {
-        throw new GraphQLError("Unauthorized")
+        throw new GraphQLError('Unauthorized')
       }
     },
     user: (parent, args, { currentUser }) => {
-      if(currentUser) {
+      if (currentUser) {
         if (args.id === currentUser.id || args.email === currentUser.email) {
-          return currentUser;
+          return currentUser
         } else if (currentUser.isAdmin) {
           return db.User.findOne({ where: args })
         } else {
-          throw new GraphQLError("Unauthorized")
+          throw new GraphQLError('Unauthorized')
         }
       } else {
-        throw new GraphQLError("Unauthorized")
+        throw new GraphQLError('Unauthorized')
       }
     }
   },
@@ -44,13 +44,13 @@ module.exports = {
         where: {
           email: args.email
         }
-      });
+      })
 
       if (await bcrypt.compare(args.password, user.password)) {
-        return await tokenUtils.generateUserToken(user, '1d');
+        return tokenUtils.generateUserToken(user, '1d')
       }
 
-      throw new Error("Not valid email or password");
+      throw new Error('Not valid email or password')
     },
     register: async (parent, args) => {
       let user = await db.User.create({
@@ -59,13 +59,10 @@ module.exports = {
         email: args.email,
         apiKey: db.User.generateApiKey(),
         sessionSignature: db.User.generateSessionSignature(),
-        password: await bcrypt.hash(args.password, 12),
+        password: await bcrypt.hash(args.password, 12)
       })
 
-      return await tokenUtils.generateUserToken(user, '1d');
+      return tokenUtils.generateUserToken(user, '1d')
     }
   }
 }
-
-
-

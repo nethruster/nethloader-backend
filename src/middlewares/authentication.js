@@ -1,17 +1,16 @@
-const verifyLogin = require('../utils/verify-login');
+const verifyLogin = require('../utils/verify-login')
 
-module.exports = async function(req) {
-  const token = req.headers['authentication'];
-  if(token) {
+module.exports = async function (req) {
+  const token = req.headers['authentication']
+  if (token) {
     try {
-      req.user = await verifyLogin(token);
-    }
-    catch(err) {
-      req.user = null;
+      req.user = await verifyLogin(token)
+    } catch (err) {
+      req.user = null
     }
   } else {
-    req.user = null;
+    req.user = null
   }
 
-  req.next();
+  req.next()
 }

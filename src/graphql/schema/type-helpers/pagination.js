@@ -1,5 +1,5 @@
 
-function Page(type, itemField) {
+function Page (type, itemField) {
   return `
   type ${type}Page{
       totalCount: Int
