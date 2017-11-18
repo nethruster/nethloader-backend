@@ -31,10 +31,10 @@ module.exports = {
           query.limit = args.limit
         }
         if (args.userId) {
-          query.where.userId = args.userId
+          query.where.UserId = args.userId
         }
         if (args.extension) {
-          query.where.userId = args.extension
+          query.where.extension = args.extension
         }
         if (args.beforeDate) {
           query.where[Op.lt] = args.beforeDate;
