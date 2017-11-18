@@ -11,7 +11,7 @@ describe('Token utils', function () {
   it('verify expired token', function () {
     return new Promise(function (resolve, reject) {
       tokenUtils.verify('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiTG9yZW0gaXBzdW0iLCJpYXQiOjE1MDk0MDgyOTksImV4cCI6MTUwOTQwODMwMH0.MTHNha5JWUHWAnmZFOfYUTrAR2FLvtqVyv-JcJUPJHE')
-        .then(data => reject('The token should be marked as invalid but it was marked as valid'))
+        .then(data => reject(new Error('The token should be marked as invalid but it was marked as valid')))
         .catch(err => {
           try {
             expect(err.name).to.equal('TokenExpiredError')
@@ -25,7 +25,7 @@ describe('Token utils', function () {
   it('verify bad secret token', function () {
     return new Promise(function (resolve, reject) {
       tokenUtils.verify('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiTG9yZW0gaXBzdW0iLCJpYXQiOjE1MDk0MDkzMDJ9.9egi5upVx_HE62_xCI0hT3KH9WQwFXQ4et6ZmbXYuBA')
-        .then(data => reject('The token should be marked as invalid but it was marked as valid'))
+        .then(data => reject(new Error('The token should be marked as invalid but it was marked as valid')))
         .catch(err => {
           try {
             expect(err.name).to.equal('JsonWebTokenError')
@@ -39,7 +39,7 @@ describe('Token utils', function () {
   it('verify invalid token', function () {
     return new Promise(function (resolve, reject) {
       tokenUtils.verify('Not a token')
-        .then(data => reject('The token should be marked as invalid but it was marked as valid'))
+        .then(data => reject(new Error('The token should be marked as invalid but it was marked as valid')))
         .catch(err => {
           try {
             expect(err.name).to.equal('JsonWebTokenError')

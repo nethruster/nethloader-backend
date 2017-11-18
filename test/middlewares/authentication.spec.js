@@ -42,7 +42,7 @@ describe('Authentication middleware', function () {
       },
       next: () => {
         try {
-          expect(req.user).to.be.null
+          expect(req.user).to.be.null // eslint-disable-line no-unused-expressions
           done()
         } catch (err) {
           done(err)

@@ -8,7 +8,7 @@
     "build": "babel src -d dist",
     "dev": "nodemon src/index.js",
     "test": "mocha --require babel-core/register --require test/mocha.env.js ./test/**/*.spec.js ",
-    "lint": "eslint src/**/*.js"
+    "lint": "eslint src/**/*.js test/**/*.js"
   },
   "repository": {
     "type": "git",
@@ -42,6 +42,7 @@
     "eslint": "^4.11.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-mocha": "^4.11.0",
     "eslint-plugin-node": "^5.2.1",
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
