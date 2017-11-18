@@ -14,6 +14,8 @@ type Query {
     extension: String
     limit: Int
     offset: Int
+    orderBy: String
+    orderDirection: String
   ): ImagePage
   
   image(id: String!): Image
