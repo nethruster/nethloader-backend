@@ -1,3 +1,5 @@
 dist
 node_modules
 /config/*.machine.config
+/images/*
+!/images/.gitkeep
