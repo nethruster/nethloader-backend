@@ -33,13 +33,21 @@ module.exports = {
           query.where.UserId = args.userId
         }
         if (args.extensions) {
-            query.where.extension = args.extensions;
+          query.where.extension = args.extensions
         }
         if (args.beforeDate) {
-          query.where[db.Sequelize.Op.lt] = args.beforeDate
+          query.where.createdAt = {
+            $lt: new Date(parseFloat(args.beforeDate))
+          }
         }
         if (args.afterDate) {
-          query.where[db.Sequelize.Op.gt] = args.afterDate
+          if (query.where.createdAt) {
+            query.where.createdAt.$gt = new Date(parseFloat(args.afterDate))
+          } else {
+            query.where.createdAt = {
+              $gt: new Date(parseFloat(args.afterDate))
+            }
+          }
         }
         let result = await db.Image.findAndCountAll(query)
 
