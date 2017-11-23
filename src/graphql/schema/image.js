@@ -11,7 +11,7 @@ ${Page('Image', 'images')}
 type Query {
   images(
     userId: String
-    extension: String
+    extensions: [String]
     limit: Int
     offset: Int
     orderBy: String

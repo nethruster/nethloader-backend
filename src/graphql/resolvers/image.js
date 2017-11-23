@@ -32,8 +32,8 @@ module.exports = {
         if (args.userId) {
           query.where.UserId = args.userId
         }
-        if (args.extension) {
-          query.where.extension = args.extension
+        if (args.extensions) {
+            query.where.extension = args.extensions;
         }
         if (args.beforeDate) {
           query.where[db.Sequelize.Op.lt] = args.beforeDate
