@@ -59,6 +59,34 @@ module.exports = {
         throw new GraphQLError('Unauthorized')
       }
     },
+    countImages: async (parent, args, { currentUser }) => {
+      if (currentUser && (args.userId === currentUser.id || currentUser.isAdmin)) {
+        let query = { where: {} }
+        if (args.userId) {
+          query.where.UserId = args.userId
+        }
+        if (args.extensions) {
+          query.where.extension = args.extensions
+        }
+        if (args.beforeDate) {
+          query.where.createdAt = {
+            $lt: new Date(parseFloat(args.beforeDate))
+          }
+        }
+        if (args.afterDate) {
+          if (query.where.createdAt) {
+            query.where.createdAt.$gt = new Date(parseFloat(args.afterDate))
+          } else {
+            query.where.createdAt = {
+              $gt: new Date(parseFloat(args.afterDate))
+            }
+          }
+        }
+        return db.Image.count(query)
+      } else {
+        throw new GraphQLError('Unauthorized')
+      }
+    },
     image: (parent, args) => {
       return db.Image.findOne({ where: args })
     }

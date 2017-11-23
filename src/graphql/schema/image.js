@@ -20,6 +20,13 @@ type Query {
     afterDate: String
   ): ImagePage
   
+  countImages(
+    userId: String
+    extensions: [String]
+    beforeDate: String
+    afterDate: String
+  ): Int
+
   image(id: String!): Image
 }
 type Mutation {
