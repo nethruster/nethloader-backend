@@ -15,7 +15,7 @@ var sequelize = new Sequelize(getConfigSection('database'))
 fs
   .readdirSync(__dirname)
   .filter(file => {
-    return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js')
+    return (file.includes('.')) && (file !== basename) && (file.endsWith('.js'))
   })
   .forEach(file => {
     var model = sequelize.import(path.join(__dirname, file))

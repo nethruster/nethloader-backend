@@ -13,6 +13,11 @@
   "security": {
     "jwtSecret": "AAA"
   },
+  "supportedExtensions": {
+    "image": ["png", "jpg", "jpeg", "svg", "webp"],
+    "video": ["mp4", "ogg", "webm", "gif"]
+  },
+  "unprocessableExtensions":  ["webp", "webm", "svg"],
   "storage": {
     "imagesPath": "$appdir/images"
   },
