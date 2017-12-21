@@ -34,4 +34,6 @@ app.use('/graphql', graphqlHTTP(req => ({
   }
 })))
 
-app.listen(config.server.port)
+app.listen(config.server.port, () => {
+  console.log('The server is listen in port: ' + config.server.port)
+})

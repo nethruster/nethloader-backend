@@ -4,27 +4,24 @@ const path = require('path')
 
 const { getConfigSection } = require('./config')
 
-let supportedExtensions = getConfigSection('supportedExtensions')
-let unprocessableExtensions = getConfigSection('unprocessableExtensions')
+let storage = getConfigSection('storage')
 
 module.exports = function (imageId, extension, mimetype) {
-  const source = path.join(__dirname, '..', '..', 'images', `${imageId}.${extension}`)
-  const destination = path.join(__dirname, '..', '..', 'images')
+  const source = path.join(storage.imagesPath, `${imageId}.${extension}`)
 
   return new Promise((resolve, reject) => {
-    if (unprocessableExtensions.includes(extension)) { // Skip over formats we can't create a thumbnail of off
+    if (storage.unprocessableExtensions.includes(extension)) { // Skip over formats we can't create a thumbnail of off
       resolve()
-    } else if (supportedExtensions.video.includes(extension)) { // Handle video thumbnails
+    } else if (storage.supportedExtensions.video.includes(extension)) { // Handle video thumbnails
       new Ffmpeg(source)
         .takeScreenshots({
           count: 1,
-          folder: destination,
+          folder: storage.imagesPath,
           filename: `${imageId}_thumb.jpg`,
           quiet: true,
           size: '100x?',
           timemarks: ['0.5']
         }).on('end', () => {
-          console.log(`generate-thumbnail: Created thumbnail for video ${imageId}`)
           return resolve()
         }).on('error', (err) => {
           console.log(err)
@@ -33,7 +30,7 @@ module.exports = function (imageId, extension, mimetype) {
     } else { // Handle image thumbnails
       thumb({
         source: source,
-        destination: destination,
+        destination: storage.imagesPath,
         width: 100,
         quiet: true,
         extension: '.jpg'

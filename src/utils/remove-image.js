@@ -3,11 +3,11 @@ const path = require('path')
 
 const { getConfigSection } = require('./config')
 
-let unprocessableExtensions = getConfigSection('unprocessableExtensions')
+let storage = getConfigSection('storage')
 
 module.exports = function (image) {
   return new Promise((resolve, reject) => {
-    fs.unlink(path.join(__dirname, '..', '..', 'images', `${image.id}.${image.extension}`), (err) => {
+    fs.unlink(path.join(storage.imagesPath, `${image.id}.${image.extension}`), (err) => {
       if (err) {
         reject(err)
       }
@@ -17,8 +17,8 @@ module.exports = function (image) {
     })
 
     // Remove thumbmnail
-    if (!unprocessableExtensions.includes(image.extension)) {
-      fs.unlink(path.join(__dirname, '..', '..', 'images', `${image.id}_thumb.jpg`), (err) => {
+    if (!storage.unprocessableExtensions.includes(image.extension)) {
+      fs.unlink(path.join(storage.imagesPath, `${image.id}_thumb.jpg`), (err) => {
         if (err) {
           reject(err)
         }

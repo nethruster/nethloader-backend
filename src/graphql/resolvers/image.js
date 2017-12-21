@@ -2,7 +2,6 @@ const { GraphQLError } = require('graphql')
 const mime = require('mime-types')
 
 const saveImage = require('../../utils/save-image')
-const generateMediaThumbnail = require('../../utils/generate-thumbnail')
 const removeImage = require('../../utils/remove-image')
 const db = require('../../models')
 
@@ -102,8 +101,7 @@ module.exports = {
         id: db.Image.generateId(),
         extension: ext
       })
-      await saveImage(img.id, ext, file.buffer)
-      await generateMediaThumbnail(img.id, ext, file.mimetype)
+      await saveImage(img.id, ext, file.mimetype, file.buffer)
 
       return img
     },
