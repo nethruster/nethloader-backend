@@ -47,7 +47,7 @@ module.exports = {
       })
 
       if (await bcrypt.compare(args.password, user.password)) {
-        return tokenUtils.generateUserToken(user, '1d')
+        return tokenUtils.generateUserToken(user, args.preventSessionExpire ? false : '1d')
       }
 
       throw new Error('Not valid email or password')
@@ -62,7 +62,7 @@ module.exports = {
         password: await bcrypt.hash(args.password, 12)
       })
 
-      return tokenUtils.generateUserToken(user, '1d')
+      return tokenUtils.generateUserToken(user, args.preventSessionExpire ? false : '1d')
     }
   }
 }

@@ -24,10 +24,12 @@ type Mutation {
     name: String!
     email: String!
     password: String!
+    preventSessionExpire: Boolean
   ): String,
   login(
     email: String!
     password: String!
+    preventSessionExpire: Boolean
   ): String
 }
 `
