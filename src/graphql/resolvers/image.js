@@ -7,7 +7,14 @@ const db = require('../../models')
 
 module.exports = {
   Image: {
-    user: image => image.getUser()
+    user: image => {
+      let user = image.getUser()
+
+      return {
+        id: user.id,
+        name: user.name
+      }
+    }
   },
   Query: {
     images: async (parent, args, { currentUser }) => {
