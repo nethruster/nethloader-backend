@@ -64,53 +64,109 @@ module.exports = {
 
       return tokenUtils.generateUserToken(user, args.preventSessionExpire ? false : '1d')
     },
-    changeName: (parent, args, { currentUser }) => {
+    changeUserName: async (parent, args, { currentUser }) => {
       if (!currentUser) throw new GraphQLError('Unauthorized')
 
-      return currentUser.updateAttributes({
+      var user
+      if (args.userId === currentUser.id) {
+        user = currentUser
+      } else if (currentUser.isAdmin) {
+        user = await db.User.findOne({
+          where: {
+            id: args.userId
+          }
+        })
+        if (user === null) throw new GraphQLError('User not found')
+      } else {
+        throw new GraphQLError('Unauthorized')
+      }
+
+      return user.updateAttributes({
         name: args.newName
       })
         .catch(err => {
           console.error(err)
-          return false
+          throw new GraphQLError('Error while processing')
         })
     },
-    changePassword: async (parent, args, { currentUser }) => {
+    changeUserEmail: async (parent, args, { currentUser }) => {
       if (!currentUser) throw new GraphQLError('Unauthorized')
 
-      if (await bcrypt.compare(args.oldPassword, currentUser.password)) {
-        return currentUser.updateAttributes({
+      var user
+      if (args.userId === currentUser.id) {
+        user = currentUser
+      } else if (currentUser.isAdmin) {
+        user = await db.User.findOne({
+          where: {
+            id: args.userId
+          }
+        })
+        if (user === null) throw new GraphQLError('User not found')
+      } else {
+        throw new GraphQLError('Unauthorized')
+      }
+
+      return user.updateAttributes({
+        email: args.newEmail
+      })
+        .catch(err => {
+          console.error(err)
+          throw new GraphQLError('Error while processing')
+        })
+    },
+    changeUserPassword: async (parent, args, { currentUser }) => {
+      if (!currentUser) throw new GraphQLError('Unauthorized')
+
+      var user
+      if (args.userId === currentUser.id) {
+        user = currentUser
+      } else if (currentUser.isAdmin) {
+        user = await db.User.findOne({
+          where: {
+            id: args.userId
+          }
+        })
+        if (user === null) throw new GraphQLError('User not found')
+      } else {
+        throw new GraphQLError('Unauthorized')
+      }
+
+      if (await bcrypt.compare(args.oldPassword, user.password)) {
+        return user.updateAttributes({
           password: await bcrypt.hash(args.newPassword, 12),
           sessionSignature: db.User.generateSessionSignature()
         })
           .catch(err => {
             console.error(err)
-            throw new Error('Error while processing')
+            throw new GraphQLError('Error while processing')
           })
       } else {
-        throw new Error('Incorrect password')
+        throw new GraphQLError('Incorrect password')
       }
     },
-    changeEmail: (parent, args, { currentUser }) => {
+    renewUserApiKey: async (parent, args, { currentUser }) => {
       if (!currentUser) throw new GraphQLError('Unauthorized')
 
-      return currentUser.updateAttributes({
-        email: args.newEmail
-      })
-        .catch(err => {
-          console.error(err)
-          throw new Error('Error while processing')
+      var user
+      if (args.userId === currentUser.id) {
+        user = currentUser
+      } else if (currentUser.isAdmin) {
+        user = await db.User.findOne({
+          where: {
+            id: args.userId
+          }
         })
-    },
-    renewApiKey: (parent, args, { currentUser }) => {
-      if (!currentUser) throw new GraphQLError('Unauthorized')
+        if (user === null) throw new GraphQLError('User not found')
+      } else {
+        throw new GraphQLError('Unauthorized')
+      }
 
-      return currentUser.updateAttributes({
+      return user.updateAttributes({
         apiKey: db.User.generateApiKey()
       })
         .catch(err => {
           console.error(err)
-          throw err
+          throw new GraphQLError('Error while processing')
         })
     }
   }
