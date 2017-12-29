@@ -31,5 +31,16 @@ type Mutation {
     password: String!
     preventSessionExpire: Boolean
   ): String
+  changeName(
+    newName: String!
+  ): User!
+  changeEmail(
+    newEmail: String!
+  ): User!
+  changePassword(
+    oldPassword: String!
+    newPassword: String!
+  ): User!
+  renewApiKey: User!
 }
 `

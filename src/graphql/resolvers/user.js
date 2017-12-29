@@ -63,6 +63,55 @@ module.exports = {
       })
 
       return tokenUtils.generateUserToken(user, args.preventSessionExpire ? false : '1d')
+    },
+    changeName: (parent, args, { currentUser }) => {
+      if (!currentUser) throw new GraphQLError('Unauthorized')
+
+      return currentUser.updateAttributes({
+        name: args.newName
+      })
+        .catch(err => {
+          console.error(err)
+          return false
+        })
+    },
+    changePassword: async (parent, args, { currentUser }) => {
+      if (!currentUser) throw new GraphQLError('Unauthorized')
+
+      if (await bcrypt.compare(args.oldPassword, currentUser.password)) {
+        return currentUser.updateAttributes({
+          password: await bcrypt.hash(args.newPassword, 12),
+          sessionSignature: db.User.generateSessionSignature()
+        })
+          .catch(err => {
+            console.error(err)
+            throw new Error('Error while processing')
+          })
+      } else {
+        throw new Error('Incorrect password')
+      }
+    },
+    changeEmail: (parent, args, { currentUser }) => {
+      if (!currentUser) throw new GraphQLError('Unauthorized')
+
+      return currentUser.updateAttributes({
+        email: args.newEmail
+      })
+        .catch(err => {
+          console.error(err)
+          throw new Error('Error while processing')
+        })
+    },
+    renewApiKey: (parent, args, { currentUser }) => {
+      if (!currentUser) throw new GraphQLError('Unauthorized')
+
+      return currentUser.updateAttributes({
+        apiKey: db.User.generateApiKey()
+      })
+        .catch(err => {
+          console.error(err)
+          throw err
+        })
     }
   }
 }
