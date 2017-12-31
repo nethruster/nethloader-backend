@@ -3,7 +3,7 @@ const db = require('../../models')
 
 const saveImage = require('./save-image')
 
-module.exports = async function(user, file) {
+module.exports = async function (user, file) {
   let ext = mime.extension(file.mimetype)
   let img = await user.createImage({
     id: db.Image.generateId(),

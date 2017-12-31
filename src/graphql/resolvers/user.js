@@ -60,12 +60,12 @@ module.exports = {
         email: args.email,
         password: args.password
       })
-  
+
       return tokenUtils.generateUserToken(user, args.preventSessionExpire ? false : '1d')
     },
     createUser: (parent, args, {currentUser}) => {
       if (!(currentUser && currentUser.isAdmin)) throw new GraphQLError('Unauthorized')
-      
+
       return createUser({
         name: args.name,
         email: args.email,

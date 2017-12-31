@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt')
 const db = require('../models')
 
-module.exports = async function({name, email, password}) {
+module.exports = async function ({name, email, password}) {
   return db.User.create({
     id: db.User.generateId(),
     name: name,

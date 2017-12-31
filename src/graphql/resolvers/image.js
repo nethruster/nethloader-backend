@@ -102,10 +102,10 @@ module.exports = {
       if (!currentUser) throw new GraphQLError('Unauthorized')
 
       return addImage(currentUser, files[0])
-      .catch(err => {
-        console.error(err);
-        throw new GraphQLError('Error while processing')
-      })
+        .catch(err => {
+          console.error(err)
+          throw new GraphQLError('Error while processing')
+        })
     },
     deleteImage: async (parent, args, { currentUser }) => {
       if (!currentUser) {
