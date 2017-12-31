@@ -25,12 +25,17 @@ type Mutation {
     email: String!
     password: String!
     preventSessionExpire: Boolean
-  ): String,
+  ): String!
   login(
     email: String!
     password: String!
     preventSessionExpire: Boolean
-  ): String
+  ): String!
+  createUser(
+    name: String!
+    email: String!
+    password: String!
+  ): User!
   changeUserName(
     userId: String!
     newName: String!

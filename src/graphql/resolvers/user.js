@@ -3,6 +3,7 @@ const { GraphQLError } = require('graphql')
 const bcrypt = require('bcrypt')
 const db = require('../../models')
 const tokenUtils = require('../../utils/token')
+const createUser = require('../../utils/create-user')
 const removeImage = require('../../utils/remove-image')
 
 module.exports = {
@@ -54,16 +55,22 @@ module.exports = {
       throw new Error('Not valid email or password')
     },
     register: async (parent, args) => {
-      let user = await db.User.create({
-        id: db.User.generateId(),
+      let user = await createUser({
         name: args.name,
         email: args.email,
-        apiKey: db.User.generateApiKey(),
-        sessionSignature: db.User.generateSessionSignature(),
-        password: await bcrypt.hash(args.password, 12)
+        password: args.password
       })
-
+  
       return tokenUtils.generateUserToken(user, args.preventSessionExpire ? false : '1d')
+    },
+    createUser: (parent, args, {currentUser}) => {
+      if (!(currentUser && currentUser.isAdmin)) throw new GraphQLError('Unauthorized')
+      
+      return createUser({
+        name: args.name,
+        email: args.email,
+        password: args.password
+      })
     },
     changeUserName: async (parent, args, { currentUser }) => {
       if (!currentUser) throw new GraphQLError('Unauthorized')
