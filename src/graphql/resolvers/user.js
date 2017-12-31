@@ -205,6 +205,34 @@ module.exports = {
           console.error(err)
           throw new GraphQLError('Error while processing')
         })
+    },
+    deleteAllUserImages: async (parent, args, { currentUser }) => {
+      if (!currentUser) throw new GraphQLError('Unauthorized')
+
+      var user
+      if (args.userId === currentUser.id) {
+        user = currentUser
+      } else if (currentUser.isAdmin) {
+        user = await db.User.findOne({
+          where: {
+            id: args.userId
+          }
+        })
+        if (user === null) throw new GraphQLError('User not found')
+      } else {
+        throw new GraphQLError('Unauthorized')
+      }
+
+      return user.getImages()
+        .then(images => {
+          let promises = images.map(removeImage)
+          return Promise.all(promises)
+        })
+        .then(() => true)
+        .catch(err => {
+          console.error(err)
+          throw new GraphQLError('Error while processing')
+        })
     }
   }
 }

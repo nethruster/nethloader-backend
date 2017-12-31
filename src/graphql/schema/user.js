@@ -55,5 +55,8 @@ type Mutation {
   deleteUser(
     userId: String!
   ): Boolean!
+  deleteAllUserImages(
+    userId: String!
+  ): Boolean!
 }
 `
