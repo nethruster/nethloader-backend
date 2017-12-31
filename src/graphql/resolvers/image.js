@@ -1,7 +1,6 @@
 const { GraphQLError } = require('graphql')
-const mime = require('mime-types')
 
-const saveImage = require('../../utils/save-image')
+const addImage = require('../../utils/add-image')
 const removeImage = require('../../utils/remove-image')
 const db = require('../../models')
 
@@ -99,18 +98,14 @@ module.exports = {
     }
   },
   Mutation: {
-    uploadImage: async (parent, args, { currentUser, files }) => {
+    uploadImage: (parent, args, { currentUser, files }) => {
       if (!currentUser) throw new GraphQLError('Unauthorized')
 
-      let file = files[0]
-      let ext = mime.extension(file.mimetype)
-      let img = await currentUser.createImage({
-        id: db.Image.generateId(),
-        extension: ext
+      return addImage(currentUser, files[0])
+      .catch(err => {
+        console.error(err);
+        throw new GraphQLError('Error while processing')
       })
-      await saveImage(img.id, ext, file.mimetype, file.buffer)
-
-      return img
     },
     deleteImage: async (parent, args, { currentUser }) => {
       if (!currentUser) {
