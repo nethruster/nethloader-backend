@@ -47,5 +47,8 @@ type Mutation {
   renewUserApiKey(
     userId: String!
   ): User!
+  deleteUser(
+    userId: String!
+  ): Boolean!
 }
 `
