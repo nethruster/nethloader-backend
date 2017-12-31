@@ -1,5 +1,5 @@
 const mime = require('mime-types')
-const db = require('../../models')
+const db = require('../models')
 
 const saveImage = require('./save-image')
 
