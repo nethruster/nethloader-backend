@@ -8,7 +8,14 @@ const removeImage = require('../../utils/remove-image')
 
 module.exports = {
   User: {
-    images: user => user.getImages()
+    images: user => {
+      try {
+        user.getImages()
+      } catch (err) {
+        console.error(err)
+        throw new GraphQLError('Error while processing')
+      }
+    }
   },
   Query: {
     users: (parent, args, { currentUser }) => {
@@ -18,7 +25,12 @@ module.exports = {
         }
 
         if (currentUser.isAdmin) {
-          return db.User.findAll({ where: args })
+          try {
+            return db.User.findAll({ where: args })
+          } catch (err) {
+            console.error(err)
+            throw new GraphQLError('Error while processing')
+          }
         } else {
           throw new GraphQLError('Unauthorized')
         }
@@ -31,7 +43,12 @@ module.exports = {
         if (args.id === currentUser.id || args.email === currentUser.email) {
           return currentUser
         } else if (currentUser.isAdmin) {
-          return db.User.findOne({ where: args })
+          try {
+            return db.User.findOne({ where: args })
+          } catch (err) {
+            console.error(err)
+            throw new GraphQLError('Error while processing')
+          }
         } else {
           throw new GraphQLError('Unauthorized')
         }
@@ -42,35 +59,49 @@ module.exports = {
   },
   Mutation: {
     login: async (parent, args) => {
-      let user = await db.User.findOne({
-        where: {
-          email: args.email
-        }
-      })
+      try {
+        let user = await db.User.findOne({
+          where: {
+            email: args.email
+          }
+        })
 
-      if (await bcrypt.compare(args.password, user.password)) {
-        return tokenUtils.generateUserToken(user, args.preventSessionExpire ? false : '1d')
+        if (await bcrypt.compare(args.password, user.password)) {
+          return tokenUtils.generateUserToken(user, args.preventSessionExpire ? false : '1d')
+        }
+      } catch (err) {
+        console.error(err)
+        throw new GraphQLError('Error while processing')
       }
 
-      throw new Error('Not valid email or password')
+      throw new GraphQLError('Not valid email or password')
     },
     register: async (parent, args) => {
-      let user = await createUser({
-        name: args.name,
-        email: args.email,
-        password: args.password
-      })
+      try {
+        let user = await createUser({
+          name: args.name,
+          email: args.email,
+          password: args.password
+        })
 
-      return tokenUtils.generateUserToken(user, args.preventSessionExpire ? false : '1d')
+        return tokenUtils.generateUserToken(user, args.preventSessionExpire ? false : '1d')
+      } catch (err) {
+        console.error(err)
+        throw new GraphQLError('Error while processing')
+      }
     },
-    createUser: (parent, args, {currentUser}) => {
+    createUser: (parent, args, { currentUser }) => {
       if (!(currentUser && currentUser.isAdmin)) throw new GraphQLError('Unauthorized')
-
-      return createUser({
-        name: args.name,
-        email: args.email,
-        password: args.password
-      })
+      try {
+        return createUser({
+          name: args.name,
+          email: args.email,
+          password: args.password
+        })
+      } catch (err) {
+        console.error(err)
+        throw new GraphQLError('Error while processing')
+      }
     },
     changeUserName: async (parent, args, { currentUser }) => {
       if (!currentUser) throw new GraphQLError('Unauthorized')

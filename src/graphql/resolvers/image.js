@@ -17,103 +17,128 @@ module.exports = {
   },
   Query: {
     images: async (parent, args, { currentUser }) => {
-      if (currentUser && (args.userId === currentUser.id || currentUser.isAdmin)) {
-        let query = { where: {} }
-        if (args.offset) {
-          query.offset = args.offset
-        }
-        if (args.orderBy) {
-          query.order = [[args.orderBy]]
-        }
-        if (args.orderDirection) {
-          if (query.order) {
-            query.order[0][1] = args.orderDirection
-          } else {
-            query.order = [['id', args.orderDirection]]
+      try {
+        if (currentUser && (args.userId === currentUser.id || currentUser.isAdmin)) {
+          let query = { where: {} }
+          if (args.offset) {
+            query.offset = args.offset
           }
-        }
-        if (args.limit) {
-          query.limit = args.limit
-        }
-        if (args.userId) {
-          query.where.UserId = args.userId
-        }
-        if (args.extensions) {
-          query.where.extension = args.extensions
-        }
-        if (args.beforeDate) {
-          query.where.createdAt = {
-            $lt: new Date(parseFloat(args.beforeDate))
+          if (args.orderBy) {
+            query.order = [[args.orderBy]]
           }
-        }
-        if (args.afterDate) {
-          if (query.where.createdAt) {
-            query.where.createdAt.$gt = new Date(parseFloat(args.afterDate))
-          } else {
-            query.where.createdAt = {
-              $gt: new Date(parseFloat(args.afterDate))
+          if (args.orderDirection) {
+            if (query.order) {
+              query.order[0][1] = args.orderDirection
+            } else {
+              query.order = [['id', args.orderDirection]]
             }
           }
-        }
-        let result = await db.Image.findAndCountAll(query)
+          if (args.limit) {
+            query.limit = args.limit
+          }
+          if (args.userId) {
+            query.where.UserId = args.userId
+          }
+          if (args.extensions) {
+            query.where.extension = args.extensions
+          }
+          if (args.beforeDate) {
+            query.where.createdAt = {
+              $lt: new Date(parseFloat(args.beforeDate))
+            }
+          }
+          if (args.afterDate) {
+            if (query.where.createdAt) {
+              query.where.createdAt.$gt = new Date(parseFloat(args.afterDate))
+            } else {
+              query.where.createdAt = {
+                $gt: new Date(parseFloat(args.afterDate))
+              }
+            }
 
-        return {
-          totalCount: result.count,
-          images: result.rows
+            let result = await db.Image.findAndCountAll(query)
+
+            return {
+              totalCount: result.count,
+              images: result.rows
+            }
+          }
+        } else {
+          throw new GraphQLError('Unauthorized')
         }
-      } else {
-        throw new GraphQLError('Unauthorized')
+      } catch (err) {
+        console.error(err)
+        throw new GraphQLError('Error while processing')
       }
     },
     countImages: async (parent, args, { currentUser }) => {
-      if (currentUser && (args.userId === currentUser.id || currentUser.isAdmin)) {
-        let query = { where: {} }
-        if (args.userId) {
-          query.where.UserId = args.userId
-        }
-        if (args.extensions) {
-          query.where.extension = args.extensions
-        }
-        if (args.beforeDate) {
-          query.where.createdAt = {
-            $lt: new Date(parseFloat(args.beforeDate))
+      try {
+        if (currentUser && (args.userId === currentUser.id || currentUser.isAdmin)) {
+          let query = { where: {} }
+          if (args.userId) {
+            query.where.UserId = args.userId
           }
-        }
-        if (args.afterDate) {
-          if (query.where.createdAt) {
-            query.where.createdAt.$gt = new Date(parseFloat(args.afterDate))
-          } else {
+          if (args.extensions) {
+            query.where.extension = args.extensions
+          }
+          if (args.beforeDate) {
             query.where.createdAt = {
-              $gt: new Date(parseFloat(args.afterDate))
+              $lt: new Date(parseFloat(args.beforeDate))
             }
           }
+          if (args.afterDate) {
+            if (query.where.createdAt) {
+              query.where.createdAt.$gt = new Date(parseFloat(args.afterDate))
+            } else {
+              query.where.createdAt = {
+                $gt: new Date(parseFloat(args.afterDate))
+              }
+            }
+          }
+          return db.Image.count(query)
+        } else {
+          throw new GraphQLError('Unauthorized')
         }
-        return db.Image.count(query)
-      } else {
-        throw new GraphQLError('Unauthorized')
+      } catch (err) {
+        console.error(err)
+        throw new GraphQLError('Error while processing')
       }
     },
     image: (parent, args) => {
-      return db.Image.findOne({ where: args })
+      try {
+        return db.Image.findOne({ where: args })
+      } catch (err) {
+        console.error(err)
+        throw new GraphQLError('Error while processing')
+      }
     }
   },
   Mutation: {
     uploadImage: (parent, args, { currentUser, files }) => {
       if (!currentUser) throw new GraphQLError('Unauthorized')
-
-      return addImage(currentUser, files[0])
-        .catch(err => {
-          console.error(err)
-          throw new GraphQLError('Error while processing')
-        })
+      try {
+        return addImage(currentUser, files[0])
+          .catch(err => {
+            console.error(err)
+            throw new GraphQLError('Error while processing')
+          })
+      } catch (err) {
+        console.error(err)
+        throw new GraphQLError('Error while processing')
+      }
     },
     deleteImage: async (parent, args, { currentUser }) => {
       if (!currentUser) {
         throw new GraphQLError('Unauthorized')
       }
-      let image = await db.Image.findOne({ where: { id: args.id } })
-      await removeImage(image)
-      return true
+      try {
+        let image = await db.Image.findOne({ where: { id: args.id } })
+        await removeImage(image)
+        return true
+      } catch (err) {
+        console.error(err)
+        throw new GraphQLError('Error while processing')
+      }
     }
   }
 }

@@ -11,8 +11,8 @@ module.exports = async function (req, res) {
     let user = await db.User.findOne({where: {apiKey: key}})
     if (!user) return res.send(400, {success: false, error: 'Invalid api-key'})
     let img = await addImage(user, req.files[0])
-    let body;
-    switch(req.headers['output-format']) {
+    let body
+    switch (req.headers['output-format']) {
       case 'rawLink':
         body = `${publicDomian}/images/${img.id}`
         break
@@ -25,7 +25,7 @@ module.exports = async function (req, res) {
           data: {
             link: `${publicDomian}/${img.id}`,
             directLink: `${publicDomian}/images/${img.id}`
-          } 
+          }
         }
         break
     }
