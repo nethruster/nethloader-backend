@@ -55,14 +55,15 @@ module.exports = {
                 $gt: new Date(parseFloat(args.afterDate))
               }
             }
-
-            let result = await db.Image.findAndCountAll(query)
-
-            return {
-              totalCount: result.count,
-              images: result.rows
-            }
           }
+
+          let result = await db.Image.findAndCountAll(query)
+
+          return {
+            totalCount: result.count,
+            images: result.rows
+          }
+
         } else {
           throw new GraphQLError('Unauthorized')
         }
