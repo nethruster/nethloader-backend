@@ -3,6 +3,7 @@ const addImage = require('../utils/add-image')
 const {getConfigSection} = require('../utils/config')
 
 const publicDomain = (getConfigSection('server')).publicDomain
+const unprocessableExtensions = (getConfigSection('storage')).supportedExtensions.unprocessableExtensions
 
 module.exports = async function (req, res) {
   let key = req.headers['api-key']
@@ -20,11 +21,13 @@ module.exports = async function (req, res) {
         body = `${publicDomain}/media/${img.id}.${img.extension}`
         break
       default:
+        let directLink = `${publicDomain}/media/${img.id}.${img.extension}`
         body = {
           success: true,
           data: {
             link: `${publicDomain}/${img.id}`,
-            directLink: `${publicDomain}/media/${img.id}.${img.extension}`
+            directLink: directLink,
+            thumb: unprocessableExtensions.includes(img.extension) ? directLink : `${publicDomain}/media/${img.id}_thumb.jpg`
           }
         }
         break
