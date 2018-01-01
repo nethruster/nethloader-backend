@@ -6,6 +6,7 @@ const {getConfig} = require('./utils/config')
 
 const authenticationMiddleware = require('./middlewares/authentication')
 const apiUpload = require('./middlewares/api-upload')
+const sharex = require('./middlewares/sharex')
 
 const schema = require('./graphql/schema')
 
@@ -39,6 +40,7 @@ app.use('/api', multer({
   storage: multer.memoryStorage()
 }).single('file'))
 app.post('/api', apiUpload)
+app.get('/sharex', sharex)
 
 app.listen(config.server.port, () => {
   console.log('The server is listen in port: ' + config.server.port)
