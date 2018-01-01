@@ -35,6 +35,9 @@ app.use('/graphql', graphqlHTTP(req => ({
   }
 })))
 
+app.use('/api', multer({
+  storage: multer.memoryStorage()
+}).array('files'))
 app.post('/api', apiUpload)
 
 app.listen(config.server.port, () => {

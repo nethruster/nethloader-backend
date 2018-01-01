@@ -17,14 +17,14 @@ module.exports = async function (req, res) {
         body = `${publicDomian}/${img.id}`
         break
       case 'rawDirectLink':
-        body = `${publicDomian}/media/${img.id}`
+        body = `${publicDomian}/media/${img.id}.${img.extension}`
         break
       default:
         body = {
           success: true,
           data: {
             link: `${publicDomian}/${img.id}`,
-            directLink: `${publicDomian}/media/${img.id}`
+            directLink: `${publicDomian}/media/${img.id}.${img.extension}`
           }
         }
         break
