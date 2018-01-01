@@ -2,7 +2,7 @@ const db = require('../models')
 const addImage = require('../utils/add-image')
 const {getConfigSection} = require('../utils/config')
 
-const publicDomian = (getConfigSection('server')).publicDomian
+const publicDomain = (getConfigSection('server')).publicDomain
 
 module.exports = async function (req, res) {
   let key = req.headers['api-key']
@@ -14,17 +14,17 @@ module.exports = async function (req, res) {
     let body
     switch (req.headers['output-format']) {
       case 'rawLink':
-        body = `${publicDomian}/${img.id}`
+        body = `${publicDomain}/${img.id}`
         break
       case 'rawDirectLink':
-        body = `${publicDomian}/media/${img.id}.${img.extension}`
+        body = `${publicDomain}/media/${img.id}.${img.extension}`
         break
       default:
         body = {
           success: true,
           data: {
-            link: `${publicDomian}/${img.id}`,
-            directLink: `${publicDomian}/media/${img.id}.${img.extension}`
+            link: `${publicDomain}/${img.id}`,
+            directLink: `${publicDomain}/media/${img.id}.${img.extension}`
           }
         }
         break
