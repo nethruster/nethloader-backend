@@ -5,6 +5,7 @@ const multer = require('multer')
 const {getConfig} = require('./utils/config')
 
 const authenticationMiddleware = require('./middlewares/authentication')
+const apiUpload = require('./middlewares/api-upload')
 
 const schema = require('./graphql/schema')
 
@@ -33,6 +34,8 @@ app.use('/graphql', graphqlHTTP(req => ({
     files: req.files
   }
 })))
+
+app.post('/api', apiUpload)
 
 app.listen(config.server.port, () => {
   console.log('The server is listen in port: ' + config.server.port)

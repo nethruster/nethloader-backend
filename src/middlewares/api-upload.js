@@ -1,4 +1,4 @@
-const db = require('./models')
+const db = require('../models')
 const addImage = require('../utils/add-image')
 const {getConfigSection} = require('../utils/config')
 
@@ -14,17 +14,17 @@ module.exports = async function (req, res) {
     let body
     switch (req.headers['output-format']) {
       case 'rawLink':
-        body = `${publicDomian}/images/${img.id}`
+        body = `${publicDomian}/${img.id}`
         break
       case 'rawDirectLink':
-        body = `${publicDomian}/${img.id}`
+        body = `${publicDomian}/media/${img.id}`
         break
       default:
         body = {
           success: true,
           data: {
             link: `${publicDomian}/${img.id}`,
-            directLink: `${publicDomian}/images/${img.id}`
+            directLink: `${publicDomian}/media/${img.id}`
           }
         }
         break
