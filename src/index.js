@@ -24,20 +24,20 @@ if (config.server.serveImages) {
 app.use('/graphql', authenticationMiddleware)
 app.use('/graphql', multer({
   storage: multer.memoryStorage()
-}).array('files'))
+}).single('file'))
 
 app.use('/graphql', graphqlHTTP(req => ({
   schema: schema,
   graphiql: config.env !== 'production',
   context: {
     currentUser: req.user,
-    files: req.files
+    file: req.file
   }
 })))
 
 app.use('/api', multer({
   storage: multer.memoryStorage()
-}).array('files'))
+}).single('file'))
 app.post('/api', apiUpload)
 
 app.listen(config.server.port, () => {

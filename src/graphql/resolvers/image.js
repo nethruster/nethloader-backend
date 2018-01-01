@@ -117,7 +117,7 @@ module.exports = {
     uploadImage: (parent, args, { currentUser, files }) => {
       if (!currentUser) throw new GraphQLError('Unauthorized')
       try {
-        return addImage(currentUser, files[0])
+        return addImage(currentUser, file)
           .catch(err => {
             console.error(err)
             throw new GraphQLError('Error while processing')
