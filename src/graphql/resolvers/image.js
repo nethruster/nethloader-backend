@@ -114,7 +114,7 @@ module.exports = {
     }
   },
   Mutation: {
-    uploadImage: (parent, args, { currentUser, files }) => {
+    uploadImage: (parent, args, { currentUser, file }) => {
       if (!currentUser) throw new GraphQLError('Unauthorized')
       try {
         return addImage(currentUser, file)
