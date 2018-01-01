@@ -10,7 +10,7 @@ module.exports = {
   User: {
     images: user => {
       try {
-        user.getImages()
+        return user.getImages()
       } catch (err) {
         console.error(err)
         throw new GraphQLError('Error while processing')
