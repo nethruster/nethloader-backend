@@ -3,6 +3,7 @@ const publicDomain = (getConfigSection('server')).publicDomain
 
 module.exports = function(req, res) {
     if (!req.query.apikey) return res.status(400).send("Missing apikey")
+    if (req.query.apikey.length !== 24) return res.status(400).send("Invalid apikey")
 
     return res.status(200).send({
         "Name": "Nethloader",

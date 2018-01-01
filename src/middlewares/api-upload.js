@@ -3,14 +3,14 @@ const addImage = require('../utils/add-image')
 const {getConfigSection} = require('../utils/config')
 
 const publicDomain = (getConfigSection('server')).publicDomain
-const unprocessableExtensions = (getConfigSection('storage')).supportedExtensions.unprocessableExtensions
+const unprocessableExtensions = (getConfigSection('storage')).unprocessableExtensions
 
 module.exports = async function (req, res) {
   let key = req.headers['api-key']
-  if (!key) return res.send(400, {success: false, error: 'Missing api-key header'})
+  if (!key) return res.status(400).send({success: false, error: 'Missing api-key header'})
   try {
     let user = await db.User.findOne({where: {apiKey: key}})
-    if (!user) return res.send(400, {success: false, error: 'Invalid api-key'})
+    if (!user) return res.status(400).send({success: false, error: 'Invalid api-key'})
     let img = await addImage(user, req.file)
     let body
     switch (req.headers['output-format']) {
