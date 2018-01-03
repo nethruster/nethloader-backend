@@ -170,7 +170,7 @@ module.exports = {
         throw new GraphQLError('Unauthorized')
       }
 
-      if (await bcrypt.compare(args.oldPassword, user.password)) {
+      if ((currentUser.isAdmin && currentUser.id !== user.id) || await bcrypt.compare(args.oldPassword, user.password)) {
         return user.updateAttributes({
           password: await bcrypt.hash(args.newPassword, 12),
           sessionSignature: db.User.generateSessionSignature()
