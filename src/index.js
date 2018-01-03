@@ -22,10 +22,12 @@ if (config.server.serveImages) {
   app.use('/media', express.static(config.storage.imagesPath))
 }
 
-app.use('/graphql', authenticationMiddleware)
-app.use('/graphql', multer({
+const multerIstance = multer({
   storage: multer.memoryStorage()
-}).single('file'))
+}).single('file')
+
+app.use('/graphql', authenticationMiddleware)
+app.use('/graphql', multerIstance)
 
 app.use('/graphql', graphqlHTTP(req => ({
   schema: schema,
@@ -36,9 +38,7 @@ app.use('/graphql', graphqlHTTP(req => ({
   }
 })))
 
-app.use('/api', multer({
-  storage: multer.memoryStorage()
-}).single('file'))
+app.use('/api', multerIstance)
 app.post('/api', apiUpload)
 app.get('/sharex', sharex)
 
