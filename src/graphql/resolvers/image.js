@@ -75,8 +75,8 @@ module.exports = {
       }
     },
     countImages: async (parent, args, { currentUser }) => {
-      try {
         if (currentUser && (args.userId === currentUser.id || currentUser.isAdmin)) {
+          try {
           let query = { where: {} }
           if (args.userId) {
             query.where.UserId = args.userId
@@ -99,13 +99,14 @@ module.exports = {
             }
           }
           return db.Image.count(query)
+        } catch (err) {
+          console.error(err)
+          throw new GraphQLError('Error while processing')
+        }
         } else {
           throw new GraphQLError('Unauthorized')
         }
-      } catch (err) {
-        console.error(err)
-        throw new GraphQLError('Error while processing')
-      }
+
     },
     image: (parent, args) => {
       try {
