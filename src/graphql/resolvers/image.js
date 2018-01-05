@@ -7,18 +7,21 @@ const db = require('../../models')
 module.exports = {
   Image: {
     user: image => {
-      let user = image.getUser()
-
-      return {
+      return image.getUser()
+      .then(user => ({
         id: user.id,
         name: user.name
-      }
+      }))
+      .catch(err => {
+        console.error(err);
+        throw new GraphQLError('Error while processing')
+      });
     }
   },
   Query: {
     images: async (parent, args, { currentUser }) => {
-      try {
-        if (currentUser && (args.userId === currentUser.id || currentUser.isAdmin)) {
+      if (currentUser && (args.userId === currentUser.id || currentUser.isAdmin)) {
+        try {
           let query = { where: {} }
           if (args.offset) {
             query.offset = args.offset
@@ -63,13 +66,12 @@ module.exports = {
             totalCount: result.count,
             images: result.rows
           }
-
-        } else {
-          throw new GraphQLError('Unauthorized')
+        } catch (err) {
+          console.error(err)
+          throw new GraphQLError('Error while processing')
         }
-      } catch (err) {
-        console.error(err)
-        throw new GraphQLError('Error while processing')
+      } else {
+        throw new GraphQLError('Unauthorized')
       }
     },
     countImages: async (parent, args, { currentUser }) => {
