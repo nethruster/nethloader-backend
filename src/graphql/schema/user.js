@@ -35,6 +35,7 @@ type Mutation {
     name: String!
     email: String!
     password: String!
+    isAdmin: Boolean
   ): User!
   changeUserName(
     userId: String!

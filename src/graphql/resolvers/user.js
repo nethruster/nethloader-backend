@@ -96,7 +96,8 @@ module.exports = {
         return createUser({
           name: args.name,
           email: args.email,
-          password: args.password
+          password: args.password,
+          isAdmin: args.isAdmin
         })
       } catch (err) {
         console.error(err)
