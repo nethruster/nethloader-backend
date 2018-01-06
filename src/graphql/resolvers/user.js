@@ -59,7 +59,7 @@ module.exports = {
   },
   Mutation: {
     login: async (parent, args) => {
-      var user;
+      var user
       try {
         user = await db.User.findOne({
           where: {
@@ -70,20 +70,18 @@ module.exports = {
         console.error(err)
         throw new GraphQLError('Error while processing')
       }
-      if(!user) throw new GraphQLError('Invalid login data')
+      if (!user) throw new GraphQLError('Invalid login data')
       try {
         if (await bcrypt.compare(args.password, user.password)) {
           return tokenUtils.generateUserToken(user, args.preventSessionExpire ? false : '1d')
         } else {
           throw new GraphQLError('Invalid login data')
         }
-      }catch (err) {
-        if (err.message === 'Invalid login data') throw err;
+      } catch (err) {
+        if (err.message === 'Invalid login data') throw err
         console.error(err)
         throw new GraphQLError('Error while processing')
       }
-
-      throw new GraphQLError('Not valid email or password')
     },
     register: async (parent, args) => {
       try {

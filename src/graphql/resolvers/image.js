@@ -8,14 +8,14 @@ module.exports = {
   Image: {
     user: image => {
       return image.getUser()
-      .then(user => ({
-        id: user.id,
-        name: user.name
-      }))
-      .catch(err => {
-        console.error(err);
-        throw new GraphQLError('Error while processing')
-      });
+        .then(user => ({
+          id: user.id,
+          name: user.name
+        }))
+        .catch(err => {
+          console.error(err)
+          throw new GraphQLError('Error while processing')
+        })
     }
   },
   Query: {
@@ -75,8 +75,8 @@ module.exports = {
       }
     },
     countImages: async (parent, args, { currentUser }) => {
-        if (currentUser && (args.userId === currentUser.id || currentUser.isAdmin)) {
-          try {
+      if (currentUser && (args.userId === currentUser.id || currentUser.isAdmin)) {
+        try {
           let query = { where: {} }
           if (args.userId) {
             query.where.UserId = args.userId
@@ -103,10 +103,9 @@ module.exports = {
           console.error(err)
           throw new GraphQLError('Error while processing')
         }
-        } else {
-          throw new GraphQLError('Unauthorized')
-        }
-
+      } else {
+        throw new GraphQLError('Unauthorized')
+      }
     },
     image: (parent, args) => {
       try {
