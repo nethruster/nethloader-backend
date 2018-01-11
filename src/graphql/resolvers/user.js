@@ -191,6 +191,16 @@ module.exports = {
         throw new GraphQLError('Incorrect password')
       }
     },
+    changeUserIsAdmin: (parent, args, { currentUser }) => {
+      if (!(currentUser && currentUser.isAdmin)) throw new GraphQLError('Unauthorized')
+      return user.updateAttributes({
+        isAdmin: args.isAdmin
+      })
+        .catch(err => {
+          console.error(err)
+          throw new GraphQLError('Error while processing')
+        })
+    },
     renewUserApiKey: async (parent, args, { currentUser }) => {
       if (!currentUser) throw new GraphQLError('Unauthorized')
 
