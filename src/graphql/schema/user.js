@@ -51,6 +51,7 @@ type Mutation {
     newPassword: String!
   ): User!
   changeUserIsAdmin(
+    userId: String!
     isAdmin: Boolean!
   ): User!
   renewUserApiKey(

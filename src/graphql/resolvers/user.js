@@ -191,8 +191,26 @@ module.exports = {
         throw new GraphQLError('Incorrect password')
       }
     },
-    changeUserIsAdmin: (parent, args, { currentUser }) => {
+    changeUserIsAdmin: async (parent, args, { currentUser }) => {
       if (!(currentUser && currentUser.isAdmin)) throw new GraphQLError('Unauthorized')
+
+      var user
+      if (args.userId === currentUser.id) {
+        user = currentUser
+      } else {
+        try {
+          user = await db.User.findOne({
+            where: {
+              id: args.userId
+            }
+          })
+        } catch(err) {
+          console.error(err)
+          throw new GraphQLError('Error while processing')
+        }
+        if (user === null) throw new GraphQLError('User not found')
+      }
+
       return user.updateAttributes({
         isAdmin: args.isAdmin
       })
