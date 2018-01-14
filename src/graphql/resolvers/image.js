@@ -134,8 +134,16 @@ module.exports = {
       if (!currentUser) {
         throw new GraphQLError('Unauthorized')
       }
+      let image
       try {
-        let image = await db.Image.findOne({ where: { id: args.id } })
+        image = await db.Image.findOne({ where: { id: args.id } })
+      } catch (err) {
+        console.error(err)
+        throw new GraphQLError('Error while processing')
+      }
+      if (!image) throw new GraphQLError('Image not found')
+      if (!(currentUser.isAdmin || image.UserId === currentUser.id)) throw new GraphQLError('Unauthorized')
+      try {
         await removeImage(image)
         return true
       } catch (err) {
