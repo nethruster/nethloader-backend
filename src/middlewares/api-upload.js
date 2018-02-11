@@ -33,7 +33,7 @@ module.exports = async function (req, res) {
         break
     }
 
-    return res.send(201, body)
+    return res.status(201).end(body)
   } catch (err) {
     console.error(err)
     return res.sendStatus(500)
