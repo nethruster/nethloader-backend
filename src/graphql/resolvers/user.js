@@ -5,6 +5,9 @@ const db = require('../../models')
 const tokenUtils = require('../../utils/token')
 const createUser = require('../../utils/create-user')
 const removeImage = require('../../utils/remove-image')
+const {getConfigSection} = require('../../utils/config')
+
+const allowRegistration = (getConfigSection('server')).allowRegistration
 
 module.exports = {
   User: {
@@ -84,6 +87,7 @@ module.exports = {
       }
     },
     register: async (parent, args) => {
+      if (!allowRegistration) throw new GraphQLError('Registration is not allowed in this instance')
       try {
         let user = await createUser({
           name: args.name,
