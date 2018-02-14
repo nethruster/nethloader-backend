@@ -248,6 +248,7 @@ module.exports = {
       if (!currentUser) throw new GraphQLError('Unauthorized')
 
       var user
+      try {
       if (args.userId === currentUser.id) {
         user = currentUser
       } else if (currentUser.isAdmin) {
@@ -260,7 +261,10 @@ module.exports = {
       } else {
         throw new GraphQLError('Unauthorized')
       }
-
+    } catch(err) {
+      if(err.message !== "Unauthorized") throw err;
+      throw new GraphQLError('Error while processing')
+    }
       return user.getImages()
         .then(images => {
           let promises = images.map(removeImage)
@@ -277,7 +281,8 @@ module.exports = {
       if (!currentUser) throw new GraphQLError('Unauthorized')
 
       var user
-      if (args.userId === currentUser.id) {
+      try {
+      if ((args.userId === currentUser.id) && await bcrypt.compare(args.password, user.password)) {
         user = currentUser
       } else if (currentUser.isAdmin) {
         user = await db.User.findOne({
@@ -285,9 +290,14 @@ module.exports = {
             id: args.userId
           }
         })
+        
         if (user === null) throw new GraphQLError('User not found')
       } else {
         throw new GraphQLError('Unauthorized')
+      }
+      } catch(err) {
+        if(err.message !== "Unauthorized") throw err;
+        throw new GraphQLError('Error while processing')
       }
 
       return user.getImages()

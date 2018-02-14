@@ -59,9 +59,11 @@ type Mutation {
   ): User!
   deleteUser(
     userId: String!
+    password: String
   ): Boolean!
   deleteAllUserImages(
     userId: String!
+    password: String
   ): Boolean!
 }
 `
