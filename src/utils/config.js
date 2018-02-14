@@ -24,7 +24,7 @@ if (Object.keys(config).length === 0) {
 }
 
 Object.assign(config, readConfigFile(env + '.env.config'))
-Object.assign(config, readConfigFile((os.hostname()).toLowerCase + '.machine.config'))
+Object.assign(config, readConfigFile((os.hostname()).toLowerCase() + '.machine.config'))
 
 config.storage.imagesPath = path.normalize(config.storage.imagesPath.replace('$appdir', path.join(__dirname, '..', '..')))
 config.env = env
