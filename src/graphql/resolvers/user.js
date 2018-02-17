@@ -73,15 +73,15 @@ module.exports = {
         console.error(err)
         throw new GraphQLError('Error while processing')
       }
-      if (!user) throw new GraphQLError('Invalid login data')
+      if (!user) throw new GraphQLError('Unexistent user')
       try {
         if (await bcrypt.compare(args.password, user.password)) {
           return tokenUtils.generateUserToken(user, args.preventSessionExpire ? false : '1d')
         } else {
-          throw new GraphQLError('Invalid login data')
+          throw new GraphQLError('Wrong password')
         }
       } catch (err) {
-        if (err.message === 'Invalid login data') throw err
+        if (err.message === 'Unexistent user' || err.message === 'Wrong password') throw err
         console.error(err)
         throw new GraphQLError('Error while processing')
       }
@@ -266,7 +266,7 @@ module.exports = {
           throw new GraphQLError('Unauthorized')
         }
       } catch (err) {
-        if (err.message !== 'Unauthorized') throw err
+        if (err.message === 'Unauthorized') throw err
         throw new GraphQLError('Error while processing')
       }
       return user.getImages()
@@ -300,7 +300,7 @@ module.exports = {
           throw new GraphQLError('Unauthorized')
         }
       } catch (err) {
-        if (err.message !== 'Unauthorized') throw err
+        if (err.message === 'Unauthorized') throw err
         throw new GraphQLError('Error while processing')
       }
 
