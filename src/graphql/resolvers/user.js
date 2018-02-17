@@ -208,7 +208,7 @@ module.exports = {
               id: args.userId
             }
           })
-        } catch(err) {
+        } catch (err) {
           console.error(err)
           throw new GraphQLError('Error while processing')
         }
@@ -253,22 +253,22 @@ module.exports = {
 
       var user
       try {
-      if (args.userId === currentUser.id) {
-        user = currentUser
-      } else if (currentUser.isAdmin) {
-        user = await db.User.findOne({
-          where: {
-            id: args.userId
-          }
-        })
-        if (user === null) throw new GraphQLError('User not found')
-      } else {
-        throw new GraphQLError('Unauthorized')
+        if ((args.userId === currentUser.id) && await bcrypt.compare(args.password, currentUser.password)) {
+          user = currentUser
+        } else if (currentUser.isAdmin) {
+          user = await db.User.findOne({
+            where: {
+              id: args.userId
+            }
+          })
+          if (user === null) throw new GraphQLError('User not found')
+        } else {
+          throw new GraphQLError('Unauthorized')
+        }
+      } catch (err) {
+        if (err.message !== 'Unauthorized') throw err
+        throw new GraphQLError('Error while processing')
       }
-    } catch(err) {
-      if(err.message !== "Unauthorized") throw err;
-      throw new GraphQLError('Error while processing')
-    }
       return user.getImages()
         .then(images => {
           let promises = images.map(removeImage)
@@ -286,21 +286,21 @@ module.exports = {
 
       var user
       try {
-      if ((args.userId === currentUser.id) && await bcrypt.compare(args.password, user.password)) {
-        user = currentUser
-      } else if (currentUser.isAdmin) {
-        user = await db.User.findOne({
-          where: {
-            id: args.userId
-          }
-        })
-        
-        if (user === null) throw new GraphQLError('User not found')
-      } else {
-        throw new GraphQLError('Unauthorized')
-      }
-      } catch(err) {
-        if(err.message !== "Unauthorized") throw err;
+        if ((args.userId === currentUser.id) && await bcrypt.compare(args.password, currentUser.password)) {
+          user = currentUser
+        } else if (currentUser.isAdmin) {
+          user = await db.User.findOne({
+            where: {
+              id: args.userId
+            }
+          })
+
+          if (user === null) throw new GraphQLError('User not found')
+        } else {
+          throw new GraphQLError('Unauthorized')
+        }
+      } catch (err) {
+        if (err.message !== 'Unauthorized') throw err
         throw new GraphQLError('Error while processing')
       }
 
