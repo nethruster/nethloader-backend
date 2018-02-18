@@ -255,7 +255,7 @@ module.exports = {
       try {
         if ((args.userId === currentUser.id) && await bcrypt.compare(args.password, currentUser.password)) {
           user = currentUser
-        } else if (currentUser.isAdmin) {
+        } else if (currentUser.isAdmin && (args.userId !== currentUser.id)) {
           user = await db.User.findOne({
             where: {
               id: args.userId
@@ -288,7 +288,7 @@ module.exports = {
       try {
         if ((args.userId === currentUser.id) && await bcrypt.compare(args.password, currentUser.password)) {
           user = currentUser
-        } else if (currentUser.isAdmin) {
+        } else if (currentUser.isAdmin && (args.userId !== currentUser.id)) {
           user = await db.User.findOne({
             where: {
               id: args.userId
