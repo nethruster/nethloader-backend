@@ -32,8 +32,8 @@ module.exports = async function (req, res) {
         }
         break
     }
-
-    return res.status(201).end(body)
+    res.status(201)
+    return res.send(body)
   } catch (err) {
     console.error(err)
     return res.sendStatus(500)
