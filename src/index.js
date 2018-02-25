@@ -43,5 +43,5 @@ app.post('/api', apiUpload)
 app.get('/sharex', sharex)
 
 app.listen(config.server.port, () => {
-  console.log('The server is listen in port: ' + config.server.port)
+  console.log('Server listening on: ' + config.server.port)
 })
