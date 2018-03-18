@@ -16,6 +16,6 @@ module.exports = function (req, res) {
       )
     })
     .catch(() => {
-      return res.status(404).send(indexFile.replace('<body>', '<body><script>var ssrData = {found: false, id: null, extension: null}</script>'))
+      return res.status(404).send(indexFile.replace('<body>', '<body><script>var ssrData = {found: false, id: null, extension: null, createdAt: null}</script>'))
     })
 }
