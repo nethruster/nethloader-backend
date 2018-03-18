@@ -7,6 +7,7 @@ const {getConfig} = require('./utils/config')
 const authenticationMiddleware = require('./middlewares/authentication')
 const apiUpload = require('./middlewares/api-upload')
 const sharex = require('./middlewares/sharex')
+const metaImageHandler = require('./middlewares/meta-image-handler')
 
 const schema = require('./graphql/schema')
 
@@ -41,6 +42,7 @@ app.use('/graphql', graphqlHTTP(req => ({
 app.use('/api', multerIstance)
 app.post('/api', apiUpload)
 app.get('/sharex', sharex)
+app.get('/:id([A-Za-z0-9_~]{10})', metaImageHandler)
 
 app.listen(config.server.port, () => {
   console.log('Server listening on: ' + config.server.port)

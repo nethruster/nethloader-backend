@@ -27,6 +27,8 @@ Object.assign(config, readConfigFile(env + '.env.config'))
 Object.assign(config, readConfigFile((os.hostname()).toLowerCase() + '.machine.config'))
 
 config.storage.imagesPath = path.normalize(config.storage.imagesPath.replace('$appdir', path.join(__dirname, '..', '..')))
+config.server.clientPath = path.normalize(config.server.clientPath.replace('$appdir', path.join(__dirname, '..', '..')))
+
 config.env = env
 if (process.env.PORT) {
   config.server.port = process.env.PORT

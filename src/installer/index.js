@@ -21,10 +21,10 @@ const createUser = require('../utils/create-user');
   let sucess = await dbSync(answer)
   if (!sucess) return
   answer = readLine.keyInYN('Do you want to add a new user?')
-  if(answer) {
+  if (answer) {
     let complete = false
-    while(!complete) {
-      await addNewUser();
+    while (!complete) {
+      await addNewUser()
 
       complete = !readLine.keyInYN('Do you want to add another user?')
     }
@@ -32,31 +32,31 @@ const createUser = require('../utils/create-user');
   console.log('Bye')
 })()
 
-async function addNewUser() {
+async function addNewUser () {
   let user
   let complete = false
   while (!complete) {
     user = {
       name: readLine.question("Insert the user's name: "),
       email: readLine.questionEMail("Insert the user's email: "),
-      isAdmin: readLine.keyInYN("Should the user be an admin?"),
-      password: ""
+      isAdmin: readLine.keyInYN('Should the user be an admin?'),
+      password: ''
     }
     user.password = askPassword()
 
     await sleep(400)
     console.log(JSON.stringify(user, null, 2))
-    if(!readLine.keyInYN("Is this data correct?")) {continue;}
+    if (!readLine.keyInYN('Is this data correct?')) { continue }
     await createUser(user)
     complete = true
   }
 }
-function askPassword() {
+function askPassword () {
   let pass = readLine.question("Insert the user's password: ")
-  if(pass === readLine.question("Retype the user's password: ")) {
+  if (pass === readLine.question("Retype the user's password: ")) {
     return pass
   } else {
-    console.log("\x1b[31mPasswords doesn't match", "\x1b[0m")
+    console.log("\x1b[31mPasswords doesn't match", '\x1b[0m')
     askPassword()
   }
 }
