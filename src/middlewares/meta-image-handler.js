@@ -12,7 +12,7 @@ module.exports = function (req, res) {
       let imgUrl = `${serverConfig.publicDomain}/media/${img.id}.${img.extension}`
       return res.send(indexFile.replace('<title>Nethloader</title>',
         `<title>Screenshot hosted with Nethloader</title><meta name="twitter:card" content="photo"><meta name="twitter:title" content="Hosted media"><meta name="twitter:description" content="Hosted with Nethloader"><meta name="twitter:image:src" content="${imgUrl}"><meta property="og:site_name" content="Nethloader"><meta property="og:title" content="Hosted media"><meta property="og:image" content="${imgUrl}"><meta property="og:description" content="Hosted with Nethloader"><meta property="og:url" content="${serverConfig.publicDomain}/${img.id}">`)
-        .replace('<body>', `<body><script>var ssrData = {found: true, id: "${img.id}", extension: "${img.extension}"}</script>`)
+        .replace('<body>', `<body><script>var ssrData = {found: true, id: "${img.id}", extension: "${img.extension}", createdAt: ${img.createdAt}}</script>`)
       )
     })
     .catch(() => {
