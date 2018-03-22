@@ -12,7 +12,7 @@ const indexFile = fs.readFileSync(`${serverConfig.clientPath}/index.html`, 'utf8
 module.exports = function (req, res) {
   db.Image.findOne({ where: { id: req.params.id } })
     .then(img => {
-      let imgUrl = `${serverConfig.publicDomain}/media/${img.id}.${img.extension}`
+      let imgUrl = `${serverConfig.publicDomain}/media/${img.UserId}/${img.id}.${img.extension}`
       let descContent = `Uploaded ${supportedExtensions.image.includes(img.extension) ? 'image' : 'video'}`
 
       return res.send(indexFile.replace('<title>Nethloader</title>',

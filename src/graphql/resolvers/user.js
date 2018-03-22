@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt')
 const db = require('../../models')
 const tokenUtils = require('../../utils/token')
 const createUser = require('../../utils/create-user')
+const removeUser = require('../../utils/remove-user')
 const removeImage = require('../../utils/remove-image')
 const {getConfigSection} = require('../../utils/config')
 
@@ -269,12 +270,7 @@ module.exports = {
         if (err.message === 'Unauthorized') throw err
         throw new GraphQLError('Error while processing')
       }
-      return user.getImages()
-        .then(images => {
-          let promises = images.map(removeImage)
-          return Promise.all(promises)
-        })
-        .then(() => user.destroy())
+      return removeUser(user)
         .then(() => true)
         .catch(err => {
           console.error(err)

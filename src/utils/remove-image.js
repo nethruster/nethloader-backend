@@ -7,7 +7,7 @@ let storage = getConfigSection('storage')
 
 module.exports = function (image) {
   return new Promise((resolve, reject) => {
-    fs.unlink(path.join(storage.imagesPath, `${image.id}.${image.extension}`), (err) => {
+    fs.unlink(path.join(storage.imagesPath, image.UserId, `${image.id}.${image.extension}`), (err) => {
       if (err) {
         reject(err)
       }
@@ -18,7 +18,7 @@ module.exports = function (image) {
 
     // Remove thumbmnail
     if (!storage.unprocessableExtensions.includes(image.extension)) {
-      fs.unlink(path.join(storage.imagesPath, `${image.id}_thumb.jpg`), (err) => {
+      fs.unlink(path.join(storage.imagesPath, image.UserId, `${image.id}_thumb.jpg`), (err) => {
         if (err) {
           reject(err)
         }

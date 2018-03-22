@@ -6,8 +6,9 @@ const { getConfigSection } = require('./config')
 
 let storage = getConfigSection('storage')
 
-module.exports = function (imageId, extension, mimetype) {
-  const source = path.join(storage.imagesPath, `${imageId}.${extension}`)
+module.exports = function (imageId, userId, extension, mimetype) {
+  const source = path.join(storage.imagesPath, userId, `${imageId}.${extension}`)
+  const dest = path.join(storage.imagesPath, userId)
 
   return new Promise((resolve, reject) => {
     if (storage.unprocessableExtensions.includes(extension)) { // Skip over formats we can't create a thumbnail of off
@@ -16,12 +17,13 @@ module.exports = function (imageId, extension, mimetype) {
       new Ffmpeg(source)
         .takeScreenshots({
           count: 1,
-          folder: storage.imagesPath,
+          folder: dest,
           filename: `${imageId}_thumb.jpg`,
           quiet: true,
           size: '100x?',
           timemarks: ['0.5']
         }).on('end', () => {
+          console.log(`generate-thumbnail: Created thumbnail for video ${imageId}`)
           return resolve()
         }).on('error', (err) => {
           console.log(err)
@@ -30,7 +32,7 @@ module.exports = function (imageId, extension, mimetype) {
     } else { // Handle image thumbnails
       thumb({
         source: source,
-        destination: storage.imagesPath,
+        destination: dest,
         width: 100,
         quiet: true,
         extension: '.jpg'

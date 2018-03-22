@@ -10,7 +10,7 @@ module.exports = async function (user, file) {
     extension: ext
   })
 
-  await saveImage(img.id, ext, file.mimetype, file.buffer)
+  await saveImage(img.id, img.UserId, ext, file.mimetype, file.buffer)
 
   return img
 }

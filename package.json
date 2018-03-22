@@ -1,6 +1,6 @@
 {
   "name": "nethloader-server",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "description": "Nethloader backend",
   "main": "dist/index.js",
   "scripts": {
@@ -28,6 +28,7 @@
     "express": "^4.15.4",
     "express-graphql": "^0.6.11",
     "fluent-ffmpeg": "^2.1.2",
+    "fs-extra": "^5.0.0",
     "graphql": "^0.11.3",
     "graphql-tools": "^1.2.3",
     "jsonwebtoken": "^8.0.1",
