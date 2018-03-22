@@ -8,7 +8,7 @@ let storage = getConfigSection('storage')
 
 module.exports = function (id, userId, extension, mimetype, image) {
   return new Promise((resolve, reject) => {
-    fs.open(path.join(storage.imagesPath, userId,`${id}.${extension}`), 'w', (err, fd) => {
+    fs.open(path.join(storage.imagesPath, userId, `${id}.${extension}`), 'w', (err, fd) => {
       if (err) {
         return reject(err)
       }
