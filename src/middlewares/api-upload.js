@@ -18,10 +18,10 @@ module.exports = async function (req, res) {
         body = `${publicDomain}/${img.id}`
         break
       case 'rawDirectLink':
-        body = `${publicDomain}/media/${img.id}.${img.extension}`
+        body = `${publicDomain}/media/${user.id}/${img.id}.${img.extension}`
         break
       default:
-        let directLink = `${publicDomain}/media/${img.id}.${img.extension}`
+        let directLink = `${publicDomain}/media/${user.id}/${img.id}.${img.extension}`
         body = {
           success: true,
           data: {
