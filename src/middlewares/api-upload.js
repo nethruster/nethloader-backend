@@ -27,7 +27,7 @@ module.exports = async function (req, res) {
           data: {
             link: `${publicDomain}/${img.id}`,
             directLink: directLink,
-            thumb: unprocessableExtensions.includes(img.extension) ? directLink : `${publicDomain}/media/${img.id}_thumb.jpg`
+            thumb: unprocessableExtensions.includes(img.extension) ? directLink : `${publicDomain}/media/${user.id}/${img.id}_thumb.jpg`
           }
         }
         break
