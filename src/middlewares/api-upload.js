@@ -6,6 +6,7 @@ const publicDomain = (getConfigSection('server')).publicDomain
 const unprocessableExtensions = (getConfigSection('storage')).unprocessableExtensions
 
 module.exports = async function (req, res) {
+  if(!req.file) return res.status(400).send({success: false, error: 'Missing or invalid file field'})  
   let key = req.headers['api-key']
   if (!key) return res.status(400).send({success: false, error: 'Missing api-key header'})
   try {

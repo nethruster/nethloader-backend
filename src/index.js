@@ -1,6 +1,7 @@
 const express = require('express')
 const graphqlHTTP = require('express-graphql')
 const multer = require('multer')
+const mime = require('mime-types')
 
 const {getConfig} = require('./utils/config')
 
@@ -23,8 +24,17 @@ if (config.server.serveImages) {
   app.use('/media', express.static(config.storage.imagesPath))
 }
 
+const supportedExtensions = config.storage.supportedExtensions.image.concat(config.storage.supportedExtensions.video)
+
+
 const multerIstance = multer({
-  storage: multer.memoryStorage()
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: config.server.maxFileSize
+  },
+  fileFilter: (req, file, cb) => {
+    cb(null, supportedExtensions.includes(mime.extension(file.mimetype)))
+  }
 }).single('file')
 
 app.use('/graphql', authenticationMiddleware)

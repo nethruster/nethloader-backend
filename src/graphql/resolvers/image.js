@@ -118,6 +118,7 @@ module.exports = {
   },
   Mutation: {
     uploadImage: (parent, args, { currentUser, file }) => {
+      if (!file) throw new GraphQLError('Missing or invalid file field')
       if (!currentUser) throw new GraphQLError('Unauthorized')
       try {
         return addImage(currentUser, file)
