@@ -1,7 +1,7 @@
 const fs = require('fs')
 
 const db = require('../models')
-const {getConfigSection} = require('../utils/config')
+const { getConfigSection } = require('../utils/config')
 const serverConfig = (getConfigSection('server'))
 
 const storage = (getConfigSection('storage'))
@@ -16,7 +16,7 @@ module.exports = function (req, res) {
       let descContent = `Uploaded ${supportedExtensions.image.includes(img.extension) ? 'image' : 'video'}`
 
       return res.send(indexFile.replace('<title>Nethloader</title>',
-        `<title>Nethloader - Hosted media</title><meta name="twitter:card" content="photo"><meta name="twitter:title" content="${descContent}"><meta name="twitter:description" content="Self-hosted media via Nethloader"><meta name="twitter:image:src" content="${imgUrl}"><meta property="og:site_name" content="Nethloader"><meta property="og:title" content="${descContent}"><meta property="og:image" content="${imgUrl}"><meta property="og:description" content="Self-hosted media via Nethloader"><meta property="og:url" content="${serverConfig.publicDomain}/${img.id}">`)
+        `<title>Nethloader - Hosted media</title><meta name="description" content="Self-hosted media via Nethloader"><meta name="twitter:card" content="photo"><meta name="twitter:title" content="${descContent}"><meta name="twitter:description" content="Self-hosted media via Nethloader"><meta name="twitter:image:src" content="${imgUrl}"><meta property="og:site_name" content="Nethloader"><meta property="og:title" content="${descContent}"><meta property="og:image" content="${imgUrl}"><meta property="og:description" content="Self-hosted media via Nethloader"><meta property="og:url" content="${serverConfig.publicDomain}/${img.id}">`)
         .replace('<body>', `<body><script id="meta-script">var ssrData = {found: true, id: "${img.id}", extension: "${img.extension}", createdAt: "${img.createdAt}", userId: "${img.UserId}"}</script>`)
       )
     })
