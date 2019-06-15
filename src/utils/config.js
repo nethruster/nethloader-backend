@@ -19,12 +19,12 @@ function readConfigFile (name) {
 
 const config = readConfigFile('config')
 
+Object.assign(config, readConfigFile(env + '.env.config'))
+Object.assign(config, readConfigFile((os.hostname()).toLowerCase() + '.machine.config'))
+
 if (Object.keys(config).length === 0) {
   throw new Error('Not config file or empty config file found.')
 }
-
-Object.assign(config, readConfigFile(env + '.env.config'))
-Object.assign(config, readConfigFile((os.hostname()).toLowerCase() + '.machine.config'))
 
 config.storage.imagesPath = path.normalize(config.storage.imagesPath.replace('$appdir', path.join(__dirname, '..', '..')))
 config.server.clientPath = path.normalize(config.server.clientPath.replace('$appdir', path.join(__dirname, '..', '..')))
