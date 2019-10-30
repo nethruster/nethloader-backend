@@ -39,7 +39,7 @@
     "nanoid": "^2.0.3",
     "node-thumbnail": "^0.15.0",
     "readline-sync": "^1.4.7",
-    "sequelize": "^5.8.7",
+    "sequelize": "^5.15.1",
     "sleep-promise": "^8.0.1"
   },
   "devDependencies": {
