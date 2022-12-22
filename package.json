@@ -31,7 +31,7 @@
     "fs-extra": "^8.0.1",
     "graphql": "^14.3.1",
     "graphql-tools": "^4.0.4",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "merge-graphql-schemas": "^1.5.8",
     "mime-types": "^2.1.24",
     "multer": "^1.4.1",
